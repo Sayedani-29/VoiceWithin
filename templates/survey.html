@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>VoiceWithin — Test</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, sans-serif; background: #234; min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* ── NAVBAR ── */
+  .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 32px;
+      height: 64px;
+      background: white;
+      border-bottom: 1px solid #f0f0f0;
+      box-shadow: 0 1px 16px rgba(0,0,0,0.06);
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 22px;
+      color: #223344;
+      letter-spacing: 0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .nav-item { position: relative; }
+
+    .nav-item a {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #555;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .nav-item a:hover { color: #223344; background: #f4f4f4; }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      background: white;
+      border: 1px solid #ebebeb;
+      border-radius: 12px;
+      overflow: hidden;
+      min-width: 160px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    }
+
+    .dropdown-content a {
+      display: block;
+      padding: 10px 16px;
+      font-size: 13px;
+      color: #555;
+      text-decoration: none;
+      transition: background 0.15s;
+      border-radius: 0;
+    }
+
+    .dropdown-content a:hover { background: #f6f6f6; color: #223344; }
+    .nav-item:hover .dropdown-content { display: block; }
+    .user-dropdown { left: auto; right: 0; }
+
+    .user-icon {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: #f4f4f4;
+      border: 1px solid #e0e0e0;
+      display: flex; justify-content: center; align-items: center;
+      cursor: pointer; font-size: 16px;
+      transition: background 0.2s;
+    }
+    .user-icon:hover { background: #ebebeb; }
+
+    /* ── CONTENT ── */
+    .page { flex: 1; display: flex; justify-content: center; align-items: center; padding: 48px 24px; }
+    .box {
+      background: #fff; padding: 48px 44px; border-radius: 18px;
+      width: 100%; max-width: 500px; box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      text-align: center; color: #000;
+    }
+    .box h2 { font-size: 24px; margin: 0 0 16px; color: #234; }
+    .box p { font-size: 16px; line-height: 1.8; color: #556; margin: 0 0 24px; }
+    .btn {
+      background: #234; color: #fff; border: none;
+      padding: 14px 36px; border-radius: 28px; font-size: 16px; font-weight: 700;
+      cursor: pointer; transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 4px 14px rgba(33,66,74,0.2);
+    }
+    .btn:hover { background: #1a3038; transform: translateY(-2px); }
+
+    /* ── MOBILE ── */
+   .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 4px; background: none; border: none;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: #223344; border-radius: 2px; transition: all 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 640px) {
+      .navbar { padding: 0 20px; }
+      .hamburger { display: flex; }
+      .nav-links {
+        display: none; position: absolute; top: 64px; left: 0; right: 0;
+        background: white; flex-direction: column; align-items: stretch; gap: 0;
+        border-bottom: 1px solid #eee; box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      }
+      .nav-links.open { display: flex; }
+      .nav-item a { border-radius: 0; padding: 14px 20px; border-bottom: 1px solid #f5f5f5; }
+      .nav-item:hover .dropdown-content { display: none; }
+      .dropdown-content { position: static; border: none; border-radius: 0; box-shadow: none; background: #fafafa; }
+      .nav-item.open-dd .dropdown-content { display: block; }
+      .user-icon { margin: 10px 20px; border-radius: 8px; width: auto; height: auto; padding: 8px 14px; }
+    }
+
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">VoiceWithin</div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <div class="nav-item"><a href="/survey">Test</a></div>
+      <div class="nav-item" id="journalDd">
+        <a>Journal ▾</a>
+        <div class="dropdown-content">
+          <a href="/journal">New Entry</a>
+          <a href="/hist">History</a>
+        </div>
+      </div>
+      <div class="nav-item"><a href="/chatbot">AI</a></div>
+      <div class="nav-item" id="userDd">
+        <div class="user-icon">👤</div>
+        <div class="dropdown-content user-dropdown">
+          <a href="/improve">Dashboard</a>
+          <a href="/login">Log Out</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page">
+    <div class="box">
+      <h2>Hello username,</h2>
+      <p>This is your space to pause and reflect.<br>Answering a few simple questions helps us understand how you're doing — and how we can support you today.</p>
+      <button class="btn" onclick="window.location.href='/QA'">Let's begin →</button>
+    </div>
+  </div>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => { hamburger.classList.toggle('open'); navLinks.classList.toggle('open'); });
+    ['journalDd','aiDd','userDd'].forEach(id => {
+      const el = document.getElementById(id);
+      el.querySelector('a, .user-icon').addEventListener('click', e => { if (window.innerWidth <= 768) { e.preventDefault(); el.classList.toggle('open-dd'); } });
+    });
+  </script>
+</body>
+</html>
