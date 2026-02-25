@@ -162,18 +162,18 @@ def generate_groq_reply(context_messages):
     return response.choices[0].message.content.strip()
 
 #to keep  app alive
-
-    def keep_alive():
-        while True:
-            try:
-                requests.get("https://voicewithin-1.onrender.com/health")
-                print("✅ Keep-alive ping sent")
-            except:
-                pass
-            threading.Event().wait(840)  # 14 minutes
-
 # Start keep-alive thread
-threading.Thread(target=keep_alive, daemon=True).start()
+# ✅ CORRECT ORDER
+def keep_alive():  # function FIRST
+    while True:
+        try:
+            requests.get("https://voicewithin-1.onrender.com/health")
+            print("✅ Keep-alive ping sent")
+        except:
+            pass
+        threading.Event().wait(840)
+
+threading.Thread(target=keep_alive, daemon=True).start()  # THEN start it
 
 # ==========================================================
 # Routes: Groq Test
