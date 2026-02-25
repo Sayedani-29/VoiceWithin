@@ -20,7 +20,8 @@ nltk.download("vader_lexicon", quiet=True)
 from nltk.sentiment import SentimentIntensityAnalyzer
 sia = SentimentIntensityAnalyzer()
 from groq import Groq
-
+import threading
+import requests
 
 # ==========================================================
 # Config & Setup
@@ -159,6 +160,20 @@ def generate_groq_reply(context_messages):
         max_tokens=150
     )
     return response.choices[0].message.content.strip()
+
+#to keep  app alive
+
+    def keep_alive():
+        while True:
+            try:
+                requests.get("https://voicewithin-1.onrender.com/health")
+                print("✅ Keep-alive ping sent")
+            except:
+                pass
+            threading.Event().wait(840)  # 14 minutes
+
+# Start keep-alive thread
+threading.Thread(target=keep_alive, daemon=True).start()
 
 # ==========================================================
 # Routes: Groq Test
@@ -779,6 +794,10 @@ def send_push_notification():
 def test_push():
     send_push_notification()
     return "✅ Test notification sent"
+
+@app.route("/health")
+def health():
+    return "OK", 200
 
 # Start scheduler
 scheduler = BackgroundScheduler()
