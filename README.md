@@ -242,6 +242,6 @@ Contributions are welcome! Here's how to get involved:
 ---
 ## 📄 License
 
-© 2024 Sayedani-29. All rights reserved. This project and its contents may not be reproduced, distributed, or used without explicit permission from the author.
+***© 2024 Sayedani-29. All rights reserved. This project and its contents may not be reproduced, distributed, or used without explicit permission from the author.***
 ---
 > *"Your story matters. You matter."* 🌻
