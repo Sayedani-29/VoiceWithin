@@ -242,7 +242,7 @@ Contributions are welcome! Here's how to get involved:
 ---
 ## 📄 License
 
-This project is licensed under the MIT License — see the [LICENSE](./LICENSE) file for details.
+This project is licensed under the MIT License — see the [LICENSE](./LICENSE (1)) file for details.
 
 ---
 > *"Your story matters. You matter."* 🌻
