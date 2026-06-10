@@ -240,5 +240,9 @@ Contributions are welcome! Here's how to get involved:
 - Everyone who contributed to making mental health tools more accessible 💛
 
 ---
+## 📄 License
 
+This project is licensed under the MIT License — see the [LICENSE](./LICENSE) file for details.
+
+---
 > *"Your story matters. You matter."* 🌻
